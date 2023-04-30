@@ -26,6 +26,7 @@ from gpustat.nvml import pynvml as N
 
 NOT_SUPPORTED = 'Not Supported'
 MB = 1024 * 1024
+GB = 1024 * 1024 * 1024
 
 DEFAULT_GPUNAME_WIDTH = 16
 
@@ -278,8 +279,8 @@ class GPUStat:
             else:
                 reps += "%(CPowU)sW%(C0)s"
 
-        reps += " | %(C1)s%(CMemU)s{entry[memory.used]:>5}%(C0)s " \
-            "/ %(CMemT)s{entry[memory.total]:>5}%(C0)s MB"
+        reps += " | %(C1)s%(CMemU)s{entry[memory.used]:>4}%(C0)s " \
+            "/ %(CMemT)s{entry[memory.total]:>3}%(C0)s GB"
         reps = (reps) % colors
 
         class entry_repr_accessor:
@@ -440,7 +441,7 @@ class GPUStatCollection(Sequence[GPUStat]):
                     process['full_command'] = _cmdline
                 # Bytes to MBytes
                 # if drivers are not TTC this will be None.
-                usedmem = nv_process.usedGpuMemory // MB if \
+                usedmem = nv_process.usedGpuMemory // GB if \
                           nv_process.usedGpuMemory else None
                 process['gpu_memory_usage'] = usedmem
 
@@ -577,8 +578,8 @@ class GPUStatCollection(Sequence[GPUStat]):
                 'enforced.power.limit': power_limit // 1000
                 if power_limit is not None else None,
                 # Convert bytes into MBytes
-                'memory.used': memory.used // MB if memory else None,
-                'memory.total': memory.total // MB if memory else None,
+                'memory.used': memory.used // GB if memory else None,
+                'memory.total': memory.total // GB if memory else None,
                 'processes': processes,
             }
             GPUStatCollection.clean_processes()
