@@ -21,7 +21,7 @@ hostname  CPU:  0.0%   3/ 126 GB Sun Oct 26 21:24:39 2025  575.51.03
 Install the enhanced version directly from this repo:
 
 ```
-pip install git+https://github.com/smlab-niser/gpustat.git@master
+pip install git+https://github.com/smlab-niser/gpustat.git@main
 ```
 
 For the original version from PyPI: `pip install gpustat`
